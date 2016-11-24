@@ -1,5 +1,7 @@
 import os
 import sys
+from random import choice
+from string import ascii_lowercase
 from csv import DictReader, DictWriter
 
 if __name__ == "__main__":
@@ -22,7 +24,7 @@ if __name__ == "__main__":
 
     column_headers = records[0].keys()
 
-    input = raw_input('Enter the column header you would like to split: \n')
+    input = input('Enter the column header you would like to split: \n')
 
     if input not in column_headers:
         print("Input supplied not in column headings.... exiting.")
@@ -37,7 +39,9 @@ if __name__ == "__main__":
         if len(split_names) > 1:
             record['last %s' % input] = ' '.join(split_names[1:])
 
-    with open('outfiles/waitlist.csv', 'w') as outfile:
+    output_filename = 'outfiles/waitlist-%s.csv' % (''.join(choice(ascii_lowercase) for i in range(4)))
+
+    with open(output_filename, 'w') as outfile:
         writer = DictWriter(outfile, records[0].keys())
         writer.writeheader()
         writer.writerows(records)
